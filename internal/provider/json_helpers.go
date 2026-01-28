@@ -47,3 +47,17 @@ func encodeOptionalJSON(data map[string]any) (types.String, error) {
 
 	return types.StringValue(string(encoded)), nil
 }
+
+// encodeOptionalJSONValue converts an arbitrary value into a JSON string.
+func encodeOptionalJSONValue(value any) (types.String, error) {
+	if value == nil {
+		return types.StringNull(), nil
+	}
+
+	encoded, err := json.Marshal(value)
+	if err != nil {
+		return types.StringNull(), fmt.Errorf("marshal JSON: %w", err)
+	}
+
+	return types.StringValue(string(encoded)), nil
+}

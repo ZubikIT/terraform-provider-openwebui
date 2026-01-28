@@ -52,6 +52,20 @@ The provider supports the following configuration arguments:
 * [`openwebui_model`](resources/model)
 * [`openwebui_prompt`](resources/prompt)
 * [`openwebui_group`](resources/group)
+* [`openwebui_tool`](resources/tool)
+* [`openwebui_tool_valves`](resources/tool_valves)
+* [`openwebui_pipeline`](resources/pipeline)
+* [`openwebui_pipeline_valves`](resources/pipeline_valves)
+* [`openwebui_file`](resources/file)
+* [`openwebui_knowledge_file`](resources/knowledge_file)
+* [`openwebui_config_import`](resources/config_import)
+* [`openwebui_connections_config`](resources/connections_config)
+* [`openwebui_tool_servers_config`](resources/tool_servers_config)
+* [`openwebui_code_execution_config`](resources/code_execution_config)
+* [`openwebui_models_config`](resources/models_config)
+* [`openwebui_suggestions_config`](resources/suggestions_config)
+* [`openwebui_banners_config`](resources/banners_config)
+* [`openwebui_oauth_client`](resources/oauth_client)
 
 ## Available Data Sources
 
@@ -59,15 +73,17 @@ The provider supports the following configuration arguments:
 * [`openwebui_model`](data-sources/model)
 * [`openwebui_prompt`](data-sources/prompt)
 * [`openwebui_group`](data-sources/group)
+* [`openwebui_tool`](data-sources/tool)
+* [`openwebui_pipeline`](data-sources/pipeline)
+* [`openwebui_file`](data-sources/file)
+* [`openwebui_files`](data-sources/files)
+* [`openwebui_config_export`](data-sources/config_export)
+* [`openwebui_user`](data-sources/user)
+* [`openwebui_tool_server_verify`](data-sources/tool_server_verify)
 
 ## Import
 
-All resources expose standard import IDs:
-
-* Knowledge: the knowledge ID string returned by Open WebUI.
-* Model: the API model ID string.
-* Prompt: the prompt command string.
-* Group: the group ID string.
+Most resources support import; refer to each resource page for the supported ID format. Singleton config resources accept any ID, and composite resources (like knowledge attachments) document their composite ID format.
 
 Use the `terraform import` command with the relevant resource type and identifier, for example:
 
@@ -75,6 +91,10 @@ Use the `terraform import` command with the relevant resource type and identifie
 terraform import openwebui_group.example 65e5e86e-0e23-4cd8-8eee-447c6923f632
 ```
 
+## Coverage
+
+See [coverage](coverage) for a summary of supported API areas.
+
 ## Limitations
 
-This provider is experimental. It reflects the REST API behaviour captured in the supplied `openapi.json` and may require adjustments for other Open WebUI versions. Automated acceptance tests are not yet available.
+This provider is experimental. It reflects the REST API behaviour captured in the supplied `openapi.json` and may require adjustments for other Open WebUI versions. Acceptance tests are available but require a live Open WebUI instance and admin credentials.

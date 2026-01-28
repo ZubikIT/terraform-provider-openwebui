@@ -12,6 +12,17 @@ Provisions a group and controls its membership and feature permissions.
 
 ## Example Usage
 
+### Minimal
+
+```hcl
+resource "openwebui_group" "support" {
+  name        = "Support"
+  description = "Support team access"
+}
+```
+
+### Full
+
 ```hcl
 resource "openwebui_group" "support" {
   name        = "Support"

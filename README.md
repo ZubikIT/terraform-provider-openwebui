@@ -1,11 +1,18 @@
 # Terraform Provider for Open WebUI
 
-This repository contains an experimental Terraform provider that manages Open WebUI resources via its REST API. The initial implementation supports:
+This repository contains an experimental Terraform provider that manages Open WebUI resources via its REST API. The current implementation supports:
 
 - Knowledge bases
+- Knowledge base file attachments
 - Models
 - Prompts
 - Groups
+- Tools and tool valves
+- Pipelines and pipeline valves
+- Files
+- Admin configs (connections, tool servers, code execution, models, suggestions, banners)
+- Config import/export
+- OAuth client registration
 
 > ⚠️ The provider is in an early stage. API compatibility may change as Open WebUI evolves and the provider gains richer coverage and testing.
 
@@ -47,6 +54,28 @@ cp terraform-provider-openwebui ~/.terraform.d/plugins/local/openwebui/openwebui
 ```
 
 Adjust the path and OS/architecture segment to match your environment.
+
+## Acceptance Tests
+
+Acceptance tests require a live Open WebUI instance and an admin API token.
+
+Set the following environment variables before running tests:
+
+- `TF_ACC=1`
+- `OPENWEBUI_TOKEN` (required)
+- `OPENWEBUI_ENDPOINT` (optional; defaults to `http://localhost:3000/api/v1`)
+
+Optional acceptance tests require additional variables:
+
+- `OPENWEBUI_TEST_CONFIG_IMPORT=1` to enable config import tests
+- `OPENWEBUI_OAUTH_CLIENT_URL` to enable OAuth client registration tests
+- `OPENWEBUI_TOOL_SERVER_URL` to enable tool server verification tests
+
+Run the acceptance tests:
+
+```bash
+go test ./internal/provider -run TestAcc -v
+```
 
 ## Publishing a Release
 
@@ -173,15 +202,51 @@ resource "openwebui_group" "example" {
 }
 ```
 
+### Tool
+
+```hcl
+resource "openwebui_tool" "calculator" {
+  tool_id = "calculator"
+  name    = "Calculator"
+  content = file("./tools/calculator.py")
+
+  description   = "Internal calculator tool"
+  manifest_json = jsonencode({
+    version = "1.0.0"
+  })
+}
+
+resource "openwebui_tool_valves" "calculator" {
+  tool_id = openwebui_tool.calculator.id
+  valves_json = jsonencode({
+    enabled = true
+  })
+}
+```
+
+### File
+
+```hcl
+resource "openwebui_file" "support_doc" {
+  source_path = "./docs/support_faq.txt"
+  metadata_json = jsonencode({
+    category = "support"
+  })
+}
+```
+
 ## Examples
 
-Reference configurations live under `examples/`. Start with [`examples/basic`](examples/basic) for a provider configuration that exercises all supported resources.
+Reference configurations live under `examples/`. Start with [`examples/basic`](examples/basic) for core resources, and see [`examples/admin`](examples/admin) for admin-focused configuration flows.
 
 ## Known Limitations / Next Steps
 
-- Automated tests are not yet in place; the provider has only been built against API documentation.
+- Acceptance tests are minimal and require a live Open WebUI instance; broaden coverage for tools, pipelines, files, and configs as needed.
 - The client currently exchanges opaque JSON fields using raw strings. Typed schemas, validation, and richer Terraform types would improve ergonomics.
 - Authentication is limited to bearer tokens. If Open WebUI exposes alternative auth flows they are not yet supported.
+- Pipeline list payloads are loosely typed in the OpenAPI spec; the provider preserves them as raw JSON.
+- The suggestions config endpoint does not expose a read API, so state is maintained from the last apply.
+- Config export/import payloads may include sensitive values; treat Terraform state accordingly.
 - Additional Open WebUI resources (settings, datasets, agents, etc.) can be lifted into Terraform following the patterns used here.
 
 Contributions and feedback are welcome.

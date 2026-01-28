@@ -12,9 +12,19 @@ Use this data source to inspect an existing knowledge entry, including access co
 
 ## Example Usage
 
+### Minimal
+
 ```hcl
 data "openwebui_knowledge" "collection" {
-  name = "test_knowledge_1"
+  name = "Support FAQ"
+}
+```
+
+### Full
+
+```hcl
+data "openwebui_knowledge" "collection" {
+  knowledge_id = "65e5e86e-0e23-4cd8-8eee-447c6923f632"
 }
 ```
 

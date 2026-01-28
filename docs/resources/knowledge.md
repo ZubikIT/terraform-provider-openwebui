@@ -12,21 +12,31 @@ Creates and manages knowledge base entries inside Open WebUI.
 
 ## Example Usage
 
+### Minimal
+
+```hcl
+resource "openwebui_knowledge" "support_faq" {
+  name        = "Support FAQ"
+  description = "Knowledge base backing the support chatbot"
+}
+```
+
+### Full
+
 ```hcl
 resource "openwebui_knowledge" "support_faq" {
   name        = "Support FAQ"
   description = "Knowledge base backing the support chatbot"
 
-  read_groups = [
-    "Support",
-  ]
-
-  write_groups = [
-    "Support",
-  ]
+  read_groups  = ["Support"]
+  write_groups = ["Support"]
 
   data_json = jsonencode({
     category = "support"
+  })
+
+  meta_json = jsonencode({
+    source = "internal"
   })
 }
 ```

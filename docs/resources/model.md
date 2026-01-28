@@ -12,6 +12,22 @@ Registers and manages models that Open WebUI can serve. The resource mirrors the
 
 ## Example Usage
 
+### Minimal
+
+```hcl
+resource "openwebui_model" "minimal" {
+  model_id = "custom-rag"
+  name     = "Custom Retrieval Model"
+
+  params = {
+    temperature = 0.1
+    max_tokens  = 256
+  }
+}
+```
+
+### Full
+
 ```hcl
 resource "openwebui_model" "volt_answer" {
   model_id = "volt-answer"
@@ -19,9 +35,10 @@ resource "openwebui_model" "volt_answer" {
 
   base_model_id = "gpt-oss-20b"
   is_active     = true
+  description   = "Retriever tuned for support workflows"
 
   params = {
-    system          = "You will only say I don't know and you should look it up your self.  be super sassy."
+    system          = "Answer in a concise, friendly tone."
     stream_response = true
     temperature     = 0.8
     max_tokens      = 128
@@ -35,11 +52,9 @@ resource "openwebui_model" "volt_answer" {
     }
   }
 
-  profile_image_url = "/static/favicon.png"
-  tags              = ["tag1"]
-  suggestion_prompts = [
-    "I'm a promt suggestion",
-  ]
+  profile_image_url  = "/static/favicon.png"
+  tags               = ["support"]
+  suggestion_prompts = ["How do I reset my password?"]
 
   capabilities = {
     vision           = true

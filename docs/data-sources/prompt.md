@@ -12,9 +12,19 @@ Use this data source to read the definition of an existing prompt, including its
 
 ## Example Usage
 
+### Minimal
+
 ```hcl
 data "openwebui_prompt" "triage" {
   command = "triage"
+}
+```
+
+### Full
+
+```hcl
+data "openwebui_prompt" "triage" {
+  command = openwebui_prompt.triage.id
 }
 ```
 

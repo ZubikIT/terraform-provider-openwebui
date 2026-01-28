@@ -12,9 +12,19 @@ Use this data source to read metadata and parameter settings for an existing mod
 
 ## Example Usage
 
+### Minimal
+
 ```hcl
 data "openwebui_model" "volt" {
   model_id = "volt-answer"
+}
+```
+
+### Full
+
+```hcl
+data "openwebui_model" "current" {
+  model_id = openwebui_model.custom_rag.id
 }
 ```
 

@@ -12,6 +12,20 @@ Creates and manages prompts exposed to Open WebUI users.
 
 ## Example Usage
 
+### Minimal
+
+```hcl
+resource "openwebui_prompt" "triage" {
+  command = "triage"
+  title   = "Ticket triage"
+  content = <<-EOT
+    You are an assistant that triages inbound support tickets.
+  EOT
+}
+```
+
+### Full
+
 ```hcl
 resource "openwebui_prompt" "triage" {
   command = "triage"
@@ -20,7 +34,7 @@ resource "openwebui_prompt" "triage" {
     You are an assistant that triages inbound support tickets.
   EOT
 
-  read_groups = ["Support"]
+  read_groups  = ["Support"]
   write_groups = ["Support"]
 }
 ```

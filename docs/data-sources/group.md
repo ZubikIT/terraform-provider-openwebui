@@ -12,9 +12,19 @@ Use this data source to read an existing group's membership, permissions, and me
 
 ## Example Usage
 
+### Minimal
+
 ```hcl
 data "openwebui_group" "admins" {
   name = "Administrators"
+}
+```
+
+### Full
+
+```hcl
+data "openwebui_group" "admins" {
+  group_id = "65e5e86e-0e23-4cd8-8eee-447c6923f632"
 }
 ```
 

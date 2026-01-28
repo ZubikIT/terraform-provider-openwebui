@@ -117,6 +117,20 @@ func (p *openWebUIProvider) Resources(_ context.Context) []func() resource.Resou
 		NewModelResource,
 		NewPromptResource,
 		NewGroupResource,
+		NewToolResource,
+		NewToolValvesResource,
+		NewPipelineResource,
+		NewPipelineValvesResource,
+		NewFileResource,
+		NewKnowledgeFileResource,
+		NewConfigImportResource,
+		NewConnectionsConfigResource,
+		NewToolServersConfigResource,
+		NewCodeExecutionConfigResource,
+		NewModelsConfigResource,
+		NewSuggestionsConfigResource,
+		NewBannersConfigResource,
+		NewOAuthClientResource,
 	}
 }
 
@@ -127,5 +141,12 @@ func (p *openWebUIProvider) DataSources(_ context.Context) []func() datasource.D
 		NewKnowledgeDataSource,
 		NewGroupDataSource,
 		NewPromptDataSource,
+		NewToolDataSource,
+		NewPipelineDataSource,
+		NewFileDataSource,
+		NewFilesDataSource,
+		NewConfigExportDataSource,
+		NewUserDataSource,
+		NewToolServerVerifyDataSource,
 	}
 }
