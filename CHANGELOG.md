@@ -1,3 +1,16 @@
+## 2.7.2 - 2026-01-27
+
+### Added
+- Resources and data sources for tools, pipelines, files, knowledge attachments, admin configs, config import/export, OAuth client registration, and tool server verification.
+- Acceptance test scaffolding and admin-focused test cases.
+- Admin example configuration plus expanded docs with minimal and full examples.
+
+### Changed
+- Provider documentation now clarifies import patterns and highlights sensitive config export/import payloads.
+
+### Fixed
+- Model deletion now uses the POST endpoint required by the Open WebUI API.
+
 ## 2.0.0 - 2025-09-20
 
 ### Added
