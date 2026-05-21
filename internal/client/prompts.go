@@ -23,9 +23,14 @@ func promptPathSegment(command string) string {
 }
 
 // PromptForm represents the payload for managing prompt definitions.
+//
+// Open WebUI requires the `name` field on `POST /api/v1/prompts/create`
+// (returns 422 if absent). The provider derives Name from Title so users
+// don't need to specify it twice.
 type PromptForm struct {
 	Command       string         `json:"command"`
 	Title         string         `json:"title"`
+	Name          string         `json:"name"`
 	Content       string         `json:"content"`
 	AccessControl map[string]any `json:"access_control,omitempty"`
 }
@@ -34,6 +39,7 @@ type PromptForm struct {
 type PromptModel struct {
 	Command       string         `json:"command"`
 	Title         string         `json:"title"`
+	Name          string         `json:"name,omitempty"`
 	Content       string         `json:"content"`
 	Timestamp     int64          `json:"timestamp"`
 	UserID        string         `json:"user_id"`
