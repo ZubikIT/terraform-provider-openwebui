@@ -68,6 +68,11 @@ func (c *Client) ListPrompts(ctx context.Context) ([]PromptModel, error) {
 }
 
 // GetPrompt fetches a prompt by its command identifier.
+//
+// Open WebUI's `GET /api/v1/prompts/command/{command}` does not match prompts
+// whose stored command begins with `/` (the API trims the leading slash on
+// create but lookup compares strictly). When the direct lookup misses, fall
+// back to ListPrompts and match on the normalized command.
 func (c *Client) GetPrompt(ctx context.Context, command string) (*PromptModel, error) {
 	var resp PromptModel
 	apiCommand := promptPathSegment(command)
@@ -80,11 +85,11 @@ func (c *Client) GetPrompt(ctx context.Context, command string) (*PromptModel, e
 			return nil, err
 		}
 
-		if errors.Is(err, ErrNotFound) {
-			return nil, err
-		}
-
-		if errors.As(err, &apiErr) && (apiErr.Status == http.StatusUnauthorized || apiErr.Status == http.StatusNotFound) {
+		// Fall back to listing for 404 (ErrNotFound) or 401, then match by
+		// normalized command.
+		isNotFound := errors.Is(err, ErrNotFound)
+		isAuthOrNotFound := errors.As(err, &apiErr) && (apiErr.Status == http.StatusUnauthorized || apiErr.Status == http.StatusNotFound)
+		if isNotFound || isAuthOrNotFound {
 			prompts, listErr := c.ListPrompts(ctx)
 			if listErr != nil {
 				return nil, err
