@@ -138,6 +138,7 @@ func (r *promptResource) Create(ctx context.Context, req resource.CreateRequest,
 	form := client.PromptForm{
 		Command: normalizePromptCommand(planCommand),
 		Title:   plan.Title.ValueString(),
+		Name:    plan.Title.ValueString(),
 		Content: plan.Content.ValueString(),
 	}
 
@@ -228,6 +229,7 @@ func (r *promptResource) Update(ctx context.Context, req resource.UpdateRequest,
 	form := client.PromptForm{
 		Command: normalizedCommand,
 		Title:   plan.Title.ValueString(),
+		Name:    plan.Title.ValueString(),
 		Content: plan.Content.ValueString(),
 	}
 
