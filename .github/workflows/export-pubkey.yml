@@ -1,0 +1,12 @@
+name: Export GPG public key
+on: workflow_dispatch
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Import private key and export public key
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+        run: |
+          echo "$GPG_PRIVATE_KEY" | gpg --batch --import
+          gpg --batch --armor --export 516AF30FD0ADB44E9E485D741EF539DFDEE64BBB
